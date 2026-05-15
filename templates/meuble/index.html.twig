@@ -1,0 +1,75 @@
+
+{% extends 'base.html.twig' %}
+{% block title %}Catalogue — SymHome{% endblock %}
+{% block body %}
+
+<div class="row mb-4">
+    <div class="col">
+        <h1>Notre Catalogue</h1>
+    </div>
+</div>
+
+{# Barre de recherche et filtres #}
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-6">
+        <input type="text" name="q" class="form-control"
+               placeholder="Rechercher un meuble..." value="{{ search }}">
+    </div>
+    <div class="col-md-4">
+        <select name="categorie" class="form-select">
+            <option value="">Toutes les catégories</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}" {{ categorieId == cat.id ? 'selected' : '' }}>
+                    {{ cat.nom }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">
+            <i class="bi bi-search"></i> Filtrer
+        </button>
+    </div>
+</form>
+
+{# Grille de meubles #}
+{% if meubles is empty %}
+    <div class="alert alert-info">Aucun meuble trouvé.</div>
+{% else %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for meuble in meubles %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    {% if meuble.image %}
+                        <img src="{{ asset('uploads/meubles/' ~ meuble.image) }}"
+                             class="card-img-top" alt="{{ meuble.nom }}" style="height:200px;object-fit:cover;">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center"
+                             style="height:200px;">
+                            <i class="bi bi-image text-muted" style="font-size:3rem;"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <span class="badge bg-secondary mb-1">{{ meuble.categorie.nom }}</span>
+                        <h5 class="card-title">{{ meuble.nom }}</h5>
+                        <p class="card-text text-muted small">{{ meuble.description|slice(0,80) }}...</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span class="fs-5 fw-bold text-primary">{{ meuble.prix|number_format(2, ',', ' ') }} €</span>
+                        <div class="d-flex gap-2">
+                            <a href="{{ path('app_meuble_show', {id: meuble.id}) }}"
+                               class="btn btn-outline-secondary btn-sm">Détails</a>
+                            <form method="post" action="{{ path('app_panier_ajouter', {id: meuble.id}) }}">
+                                <input type="hidden" name="quantite" value="1">
+                                <button class="btn btn-primary btn-sm" type="submit">
+                                    <i class="bi bi-cart-plus"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,5 +1,6 @@
-
 <?php
+
+namespace App\Entity;
 
 use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -8,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
+#[ORM\Table(name: '`categorie`')]
 class Categorie
 {
     #[ORM\Id]
@@ -32,9 +34,16 @@ class Categorie
         $this->meubles = new ArrayCollection();
     }
 
-    public function getId(): ?int { return $this->id; }
+    public function getId(): ?int 
+    { 
+        return $this->id; 
+    }
 
-    public function getNom(): ?string { return $this->nom; }
+    public function getNom(): ?string 
+    { 
+        return $this->nom; 
+    }
+    
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
@@ -43,17 +52,33 @@ class Categorie
         return $this;
     }
 
-    public function getDescription(): ?string { return $this->description; }
+    public function getDescription(): ?string 
+    { 
+        return $this->description; 
+    }
+    
     public function setDescription(?string $description): static
     {
         $this->description = $description;
         return $this;
     }
 
-    public function getSlug(): ?string { return $this->slug; }
-    public function setSlug(string $slug): static { $this->slug = $slug; return $this; }
+    public function getSlug(): ?string 
+    { 
+        return $this->slug; 
+    }
+    
+    public function setSlug(string $slug): static 
+    { 
+        $this->slug = $slug; 
+        return $this; 
+    }
 
-    public function getMeubles(): Collection { return $this->meubles; }
+    public function getMeubles(): Collection 
+    { 
+        return $this->meubles; 
+    }
+    
     public function addMeuble(Meuble $meuble): static
     {
         if (!$this->meubles->contains($meuble)) {
@@ -62,6 +87,7 @@ class Categorie
         }
         return $this;
     }
+    
     public function removeMeuble(Meuble $meuble): static
     {
         if ($this->meubles->removeElement($meuble)) {
@@ -72,5 +98,8 @@ class Categorie
         return $this;
     }
 
-    public function __toString(): string { return $this->nom ?? ''; }
+    public function __toString(): string 
+    { 
+        return $this->nom ?? ''; 
+    }
 }

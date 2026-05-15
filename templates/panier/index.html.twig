@@ -1,0 +1,91 @@
+
+{% extends 'base.html.twig' %}
+{% block title %}Mon Panier — SymHome{% endblock %}
+{% block body %}
+<h1 class="mb-4"><i class="bi bi-cart3"></i> Mon Panier</h1>
+
+{% if panier.items is empty %}
+    <div class="alert alert-info">
+        Votre panier est vide. <a href="{{ path('app_meuble_index') }}">Continuer les achats</a>
+    </div>
+{% else %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Produit</th>
+                                <th>Prix unitaire</th>
+                                <th>Quantité</th>
+                                <th>Sous-total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in panier.items %}
+                            <tr>
+                                <td>
+                                    <strong>{{ item.meuble.nom }}</strong><br>
+                                    <small class="text-muted">{{ item.meuble.categorie.nom }}</small>
+                                </td>
+                                <td>{{ item.meuble.prix|number_format(2, ',', ' ') }} €</td>
+                                <td>
+                                    <form method="post"
+                                          action="{{ path('app_panier_modifier', {id: item.meuble.id}) }}"
+                                          class="d-flex gap-1">
+                                        <input type="number" name="quantite" value="{{ item.quantite }}"
+                                               min="1" max="{{ item.meuble.stock }}"
+                                               class="form-control form-control-sm" style="width:65px;">
+                                        <button class="btn btn-outline-secondary btn-sm">OK</button>
+                                    </form>
+                                </td>
+                                <td><strong>{{ item.sousTotal|number_format(2, ',', ' ') }} €</strong></td>
+                                <td>
+                                    <form method="post"
+                                          action="{{ path('app_panier_supprimer', {id: item.meuble.id}) }}">
+                                        <button class="btn btn-outline-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <form method="post" action="{{ path('app_panier_vider') }}" class="mt-2">
+                <button class="btn btn-outline-danger btn-sm">
+                    <i class="bi bi-trash"></i> Vider le panier
+                </button>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Récapitulatif</h5>
+                    <hr>
+                    <div class="d-flex justify-content-between fs-5">
+                        <span>Total</span>
+                        <strong>{{ panier.total|number_format(2, ',', ' ') }} €</strong>
+                    </div>
+                    <hr>
+                    {% if app.user %}
+                        <a href="{{ path('app_commande_valider') }}" class="btn btn-success w-100 btn-lg">
+                            <i class="bi bi-credit-card"></i> Commander
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn btn-primary w-100">
+                            Se connecter pour commander
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

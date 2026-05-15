@@ -35,8 +35,12 @@
                 {% if app.user %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_panier') }}">
-                            <i class="bi bi-cart3"></i> Panier
-                        </a>
+    <i class="bi bi-cart3"></i> Panier
+    {% set count = panier_count() %}
+    {% if count > 0 %}
+        <span class="badge bg-danger">{{ count }}</span>
+    {% endif %}
+</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
