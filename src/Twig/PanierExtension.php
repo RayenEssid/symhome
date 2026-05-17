@@ -1,18 +1,19 @@
 <?php
+
 namespace App\Twig;
 
 use App\Service\PanierService;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
+use Twig\Extension\GlobalsInterface;
 
-class PanierExtension extends AbstractExtension
+class PanierExtension extends AbstractExtension implements GlobalsInterface
 {
     public function __construct(private PanierService $panierService) {}
 
-    public function getFunctions(): array
+    public function getGlobals(): array
     {
         return [
-            new TwigFunction('panier_count', [$this->panierService, 'getNombreArticles']),
+            'panier_count' => $this->panierService->getNombreArticles(),
         ];
     }
 }
