@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Service\PanierService;
@@ -7,49 +8,50 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/panier', name: 'app_panier')]
+#[Route('/panier')]
 class PanierController extends AbstractController
 {
     public function __construct(private PanierService $panierService) {}
 
-    #[Route('', name: '')]
+    #[Route('/', name: 'app_panier_index')]
     public function index(): Response
     {
         return $this->render('panier/index.html.twig', [
-            'panier' => $this->panierService->getPanierAvecDonnees(),
+            'items' => $this->panierService->getPanierComplet(),
+            'total' => $this->panierService->getTotal(),
         ]);
     }
 
-    #[Route('/ajouter/{id}', name: '_ajouter', methods: ['POST'])]
+    #[Route('/ajouter/{id}', name: 'app_panier_ajouter', methods: ['POST'])]
     public function ajouter(int $id, Request $request): Response
     {
         $quantite = max(1, (int) $request->request->get('quantite', 1));
-        $this->panierService->ajouter($id, $quantite);
+        $this->panierService->ajouterArticle($id, $quantite);
         $this->addFlash('success', 'Article ajouté au panier !');
-        return $this->redirect($request->headers->get('referer', $this->generateUrl('app_panier')));
+        return $this->redirectToRoute('app_panier_index');
     }
 
-    #[Route('/modifier/{id}', name: '_modifier', methods: ['POST'])]
+    #[Route('/modifier/{id}', name: 'app_panier_modifier', methods: ['POST'])]
     public function modifier(int $id, Request $request): Response
     {
         $quantite = (int) $request->request->get('quantite', 1);
-        $this->panierService->modifier($id, $quantite);
-        return $this->redirectToRoute('app_panier');
+        $this->panierService->modifierQuantite($id, $quantite);
+        return $this->redirectToRoute('app_panier_index');
     }
 
-    #[Route('/supprimer/{id}', name: '_supprimer', methods: ['POST'])]
+    #[Route('/supprimer/{id}', name: 'app_panier_supprimer')]
     public function supprimer(int $id): Response
     {
-        $this->panierService->supprimer($id);
+        $this->panierService->supprimerArticle($id);
         $this->addFlash('info', 'Article retiré du panier.');
-        return $this->redirectToRoute('app_panier');
+        return $this->redirectToRoute('app_panier_index');
     }
 
-    #[Route('/vider', name: '_vider', methods: ['POST'])]
+    #[Route('/vider', name: 'app_panier_vider')]
     public function vider(): Response
     {
-        $this->panierService->vider();
+        $this->panierService->viderPanier();
         $this->addFlash('info', 'Panier vidé.');
-        return $this->redirectToRoute('app_panier');
+        return $this->redirectToRoute('app_panier_index');
     }
 }

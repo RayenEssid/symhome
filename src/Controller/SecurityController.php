@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +25,6 @@ class SecurityController extends AbstractController
     #[Route('/deconnexion', name: 'app_logout')]
     public function logout(): void
     {
-        // Géré automatiquement par Symfony Security
+        throw new \LogicException('Handled by firewall.');
     }
 }
