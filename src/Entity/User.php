@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé.')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -29,16 +29,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 80)]
+    #[ORM\Column(length: 100)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 80)]
+    #[ORM\Column(length: 100)]
     private ?string $prenom = null;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column]
     private bool $isVerified = false;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Commande::class)]
@@ -65,7 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     public function setRoles(array $roles): static { $this->roles = $roles; return $this; }
 
-    public function getPassword(): ?string { return $this->password; }
+    public function getPassword(): string { return $this->password; }
     public function setPassword(string $password): static { $this->password = $password; return $this; }
 
     public function eraseCredentials(): void {}
@@ -80,16 +80,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static { $this->isVerified = $isVerified; return $this; }
 
     public function getCreatedAt(): ?\DateTimeImmutable { return $this->createdAt; }
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static { $this->createdAt = $createdAt; return $this; }
 
     public function getCommandes(): Collection { return $this->commandes; }
-    public function addCommande(Commande $commande): static
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->setUser($this);
-        }
-        return $this;
-    }
 
-    public function __toString(): string { return $this->prenom.' '.$this->nom; }
+    public function getNomComplet(): string { return $this->prenom . ' ' . $this->nom; }
 }
