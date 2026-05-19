@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repository;
 
 use App\Entity\Meuble;
@@ -12,21 +13,30 @@ class MeubleRepository extends ServiceEntityRepository
         parent::__construct($registry, Meuble::class);
     }
 
-    public function search(?string $query = null, ?int $categorieId = null): array
+    public function search(string $q = '', string $categorieSlug = '', ?float $prixMin = null, ?float $prixMax = null): array
     {
         $qb = $this->createQueryBuilder('m')
             ->leftJoin('m.categorie', 'c')
-            ->addSelect('c')
-            ->where('m.stock > 0');
+            ->addSelect('c');
 
-        if ($query) {
+        if ($q) {
             $qb->andWhere('m.nom LIKE :q OR m.description LIKE :q')
-               ->setParameter('q', '%' . $query . '%');
+               ->setParameter('q', '%' . $q . '%');
         }
 
-        if ($categorieId) {
-            $qb->andWhere('c.id = :cat')
-               ->setParameter('cat', $categorieId);
+        if ($categorieSlug) {
+            $qb->andWhere('c.slug = :slug')
+               ->setParameter('slug', $categorieSlug);
+        }
+
+        if ($prixMin !== null) {
+            $qb->andWhere('m.prix >= :prixMin')
+               ->setParameter('prixMin', $prixMin);
+        }
+
+        if ($prixMax !== null) {
+            $qb->andWhere('m.prix <= :prixMax')
+               ->setParameter('prixMax', $prixMax);
         }
 
         return $qb->orderBy('m.createdAt', 'DESC')->getQuery()->getResult();

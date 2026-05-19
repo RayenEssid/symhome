@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration — SymHome{% endblock %}
+
+{% block body %}
+{% set route = app.request.attributes.get('_route') %}
+<div class="row g-4">
+
+    {# ── Sidebar ── #}
+    <div class="col-md-3 col-lg-2">
+        <div class="card">
+            <div class="card-body p-2">
+                <p class="fw-bold text-primary px-2 pt-1 mb-2">
+                    <i class="bi bi-gear-fill me-1"></i>Administration
+                </p>
+
+                <ul class="nav flex-column small">
+                    <li class="nav-item">
+                        <a class="nav-link py-1 {{ route == 'admin_dashboard' ? 'active fw-bold text-primary' : 'text-dark' }}"
+                           href="{{ path('admin_dashboard') }}">
+                            <i class="bi bi-speedometer2 me-1"></i>Tableau de bord
+                        </a>
+                    </li>
+
+                    <li class="nav-item"><hr class="my-1"></li>
+                    <li class="px-2 py-1"><small class="text-muted text-uppercase" style="font-size:.7rem">Catalogue</small></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link py-1 {{ route starts with 'admin_meuble' ? 'active fw-bold text-primary' : 'text-dark' }}"
+                           href="{{ path('admin_meuble_index') }}">
+                            <i class="bi bi-box-seam me-1"></i>Meubles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-1 {{ route starts with 'admin_categorie' ? 'active fw-bold text-primary' : 'text-dark' }}"
+                           href="{{ path('admin_categorie_index') }}">
+                            <i class="bi bi-tags me-1"></i>Catégories
+                        </a>
+                    </li>
+
+                    <li class="nav-item"><hr class="my-1"></li>
+                    <li class="px-2 py-1"><small class="text-muted text-uppercase" style="font-size:.7rem">Ventes</small></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link py-1 {{ route starts with 'admin_commande' ? 'active fw-bold text-primary' : 'text-dark' }}"
+                           href="{{ path('admin_commande_index') }}">
+                            <i class="bi bi-cart-check me-1"></i>Commandes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-1 {{ route starts with 'admin_user' ? 'active fw-bold text-primary' : 'text-dark' }}"
+                           href="{{ path('admin_user_index') }}">
+                            <i class="bi bi-people me-1"></i>Utilisateurs
+                        </a>
+                    </li>
+
+                    <li class="nav-item"><hr class="my-1"></li>
+                    <li class="nav-item">
+                        <a class="nav-link py-1 text-muted" href="{{ path('app_home') }}">
+                            <i class="bi bi-eye me-1"></i>Voir le site
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {# ── Main content ── #}
+    <div class="col-md-9 col-lg-10">
+        {% block admin_content %}{% endblock %}
+    </div>
+
+</div>
+{% endblock %}

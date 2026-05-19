@@ -1,0 +1,80 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Meubles — Admin{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold mb-0"><i class="bi bi-box-seam me-2"></i>Meubles</h4>
+    <a href="{{ path('admin_meuble_create') }}" class="btn btn-primary btn-sm">
+        <i class="bi bi-plus-lg me-1"></i>Nouveau meuble
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Nom</th>
+                    <th>Catégorie</th>
+                    <th>Prix</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for meuble in meubles %}
+                <tr>
+                    <td class="text-muted">{{ meuble.id }}</td>
+                    <td>
+                        {% if meuble.image %}
+                            {% if meuble.image starts with 'http' or meuble.image starts with '/' %}
+                                <img src="{{ meuble.image }}" alt="{{ meuble.nom }}"
+                                     style="width:50px;height:50px;object-fit:cover" class="rounded">
+                            {% else %}
+                                <img src="/uploads/meubles/{{ meuble.image }}" alt="{{ meuble.nom }}"
+                                     style="width:50px;height:50px;object-fit:cover" class="rounded">
+                            {% endif %}
+                        {% else %}
+                            <span class="text-muted"><i class="bi bi-image"></i></span>
+                        {% endif %}
+                    </td>
+                    <td class="fw-bold">{{ meuble.nom }}</td>
+                    <td>
+                        <span class="badge bg-secondary">{{ meuble.categorie.nom }}</span>
+                    </td>
+                    <td>{{ meuble.prix }} TND</td>
+                    <td>
+                        {% if meuble.stock > 0 %}
+                            <span class="badge bg-success">{{ meuble.stock }}</span>
+                        {% else %}
+                            <span class="badge bg-danger">Rupture</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_meuble_edit', {id: meuble.id}) }}"
+                           class="btn btn-outline-primary btn-sm me-1">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <form method="post" action="{{ path('admin_meuble_delete', {id: meuble.id}) }}"
+                              style="display:inline"
+                              onsubmit="return confirm('Supprimer ce meuble ?')">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete-meuble-' ~ meuble.id) }}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">Aucun meuble.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

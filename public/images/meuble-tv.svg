@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f7ee"/>
+      <stop offset="100%" style="stop-color:#d8edcf"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)" rx="12"/>
+  <!-- Main body -->
+  <rect x="60" y="195" width="480" height="120" rx="10" fill="#2d5a27"/>
+  <!-- Left compartment door -->
+  <rect x="72" y="207" width="135" height="96" rx="7" fill="#3a7034"/>
+  <circle cx="139" cy="255" r="5" fill="#1a3a16"/>
+  <!-- Center shelves -->
+  <rect x="220" y="207" width="160" height="45" rx="5" fill="#3a7034"/>
+  <rect x="220" y="262" width="160" height="41" rx="5" fill="#3a7034"/>
+  <!-- Right compartment door -->
+  <rect x="393" y="207" width="135" height="96" rx="7" fill="#3a7034"/>
+  <circle cx="461" cy="255" r="5" fill="#1a3a16"/>
+  <!-- Legs -->
+  <rect x="100" y="315" width="16" height="30" rx="4" fill="#1a3a16"/>
+  <rect x="484" y="315" width="16" height="30" rx="4" fill="#1a3a16"/>
+  <!-- TV on top (outline) -->
+  <rect x="155" y="110" width="290" height="80" rx="6" fill="none" stroke="#2d5a27" stroke-width="3"/>
+  <rect x="163" y="118" width="274" height="64" rx="4" fill="#c8dfc4" opacity="0.5"/>
+  <line x1="285" y1="190" x2="285" y2="200" stroke="#2d5a27" stroke-width="4"/>
+  <rect x="220" y="195" width="160" height="5" rx="2" fill="#2d5a27"/>
+  <!-- Label -->
+  <rect x="185" y="358" width="230" height="30" rx="6" fill="#2d5a27" opacity="0.15"/>
+  <text x="300" y="378" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#2d5a27">Meuble TV 160cm</text>
+</svg>

@@ -24,6 +24,10 @@ class MeubleController extends AbstractController
         $prixMin   = $request->query->get('prix_min');
         $prixMax   = $request->query->get('prix_max');
 
+        // Convertir les strings vides en null
+        $prixMin = !empty($prixMin) ? (float) $prixMin : null;
+        $prixMax = !empty($prixMax) ? (float) $prixMax : null;
+
         $meubles   = $meubleRepository->search($search, $categorieSlug, $prixMin, $prixMax);
         $categories = $categorieRepository->findAll();
 

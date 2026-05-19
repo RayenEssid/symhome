@@ -1,0 +1,53 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}{{ titre }} — Admin{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex align-items-center mb-3">
+    <a href="{{ path('admin_meuble_index') }}" class="btn btn-outline-secondary btn-sm me-3">
+        <i class="bi bi-arrow-left"></i> Retour
+    </a>
+    <h4 class="fw-bold mb-0">{{ titre }}</h4>
+</div>
+
+<div class="card" style="max-width:700px">
+    <div class="card-body">
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+            <div class="row g-3">
+                <div class="col-12">
+                    {{ form_row(form.nom) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.prix) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.stock) }}
+                </div>
+                <div class="col-12">
+                    {{ form_row(form.categorie) }}
+                </div>
+                <div class="col-12">
+                    {{ form_row(form.description) }}
+                </div>
+                <div class="col-12">
+                    {% if meuble is defined and meuble.image %}
+                        <div class="mb-2">
+                            <label class="form-label small text-muted">Image actuelle</label><br>
+                            {% if meuble.image starts with 'http' or meuble.image starts with '/' %}
+                                <img src="{{ meuble.image }}" alt="Image actuelle"
+                                     style="max-height:120px;border-radius:8px">
+                            {% else %}
+                                <img src="/uploads/meubles/{{ meuble.image }}" alt="Image actuelle"
+                                     style="max-height:120px;border-radius:8px">
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {{ form_row(form.image) }}
+                </div>
+            </div>
+            <hr>
+            {{ form_widget(form.Enregistrer) }}
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

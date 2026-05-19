@@ -1,48 +1,53 @@
-
 {% extends 'base.html.twig' %}
 {% block title %}{{ meuble.nom }} — SymHome{% endblock %}
+
 {% block body %}
-<div class="row">
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('app_meuble_index') }}">Catalogue</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('app_meuble_index', {categorie: meuble.categorie.slug}) }}">{{ meuble.categorie.nom }}</a></li>
+        <li class="breadcrumb-item active">{{ meuble.nom }}</li>
+    </ol>
+</nav>
+
+<div class="row g-4">
     <div class="col-md-5">
-        {% if meuble.image %}
-            <img src="{{ asset('uploads/meubles/' ~ meuble.image) }}"
-                 class="img-fluid rounded shadow" alt="{{ meuble.nom }}">
-        {% else %}
-            <div class="bg-light d-flex align-items-center justify-content-center rounded"
-                 style="height:350px;">
-                <i class="bi bi-image text-muted" style="font-size:5rem;"></i>
-            </div>
-        {% endif %}
+        <div class="bg-light rounded-3 overflow-hidden d-flex align-items-center justify-content-center" style="height:350px">
+            {% include 'meuble/_image.html.twig' with {imgClass: 'img-fluid w-100', imgStyle: 'object-fit:cover;max-height:350px'} %}
+        </div>
     </div>
     <div class="col-md-7">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ path('app_meuble_index') }}">Catalogue</a></li>
-                <li class="breadcrumb-item active">{{ meuble.nom }}</li>
-            </ol>
-        </nav>
         <span class="badge bg-secondary mb-2">{{ meuble.categorie.nom }}</span>
-        <h1>{{ meuble.nom }}</h1>
-        <p class="lead text-muted">{{ meuble.description }}</p>
-        <hr>
-        <div class="d-flex align-items-center gap-3 mb-4">
-            <span class="fs-2 fw-bold text-primary">{{ meuble.prix|number_format(2, ',', ' ') }} €</span>
+        <h1 class="h2">{{ meuble.nom }}</h1>
+        <p class="text-muted">{{ meuble.description }}</p>
+
+        <div class="d-flex align-items-center gap-3 my-3">
+            <span class="fs-2 fw-bold text-primary">{{ meuble.prix }} TND</span>
             {% if meuble.stock > 0 %}
-                <span class="badge bg-success">En stock ({{ meuble.stock }})</span>
+                <span class="badge bg-success fs-6">✓ En stock ({{ meuble.stock }})</span>
             {% else %}
-                <span class="badge bg-danger">Rupture de stock</span>
+                <span class="badge bg-danger fs-6">Rupture de stock</span>
             {% endif %}
         </div>
+
         {% if meuble.stock > 0 %}
-            <form method="post" action="{{ path('app_panier_ajouter', {id: meuble.id}) }}"
-                  class="d-flex gap-2 align-items-center">
-                <input type="number" name="quantite" value="1" min="1" max="{{ meuble.stock }}"
-                       class="form-control" style="width:80px;">
-                <button class="btn btn-primary btn-lg" type="submit">
-                    <i class="bi bi-cart-plus"></i> Ajouter au panier
+            <form action="{{ path('app_panier_ajouter', {id: meuble.id}) }}" method="post" class="d-flex gap-3 align-items-center mt-4">
+                <div style="width:100px">
+                    <input type="number" name="quantite" class="form-control" value="1" min="1" max="{{ meuble.stock }}">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg flex-grow-1">
+                    <i class="bi bi-cart-plus me-2"></i>Ajouter au panier
                 </button>
             </form>
+        {% else %}
+            <button class="btn btn-secondary btn-lg w-100" disabled>Indisponible</button>
         {% endif %}
+
+        <hr class="my-4">
+        <small class="text-muted">
+            <i class="bi bi-calendar me-1"></i>Ajouté le {{ meuble.createdAt|date('d/m/Y') }}
+        </small>
     </div>
 </div>
 {% endblock %}

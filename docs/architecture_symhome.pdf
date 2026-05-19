@@ -1,0 +1,153 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R 11 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 3887 >>
+stream
+BT /F2 19.0 Tf 48 782.0 Td (SymHome - Architecture et explication du code) Tj ET
+BT /F2 14.0 Tf 48 738.0 Td (Objectif du projet) Tj ET
+BT /F1 10.5 Tf 48 712.0 Td (SymHome est une application e-commerce Symfony pour vendre des meubles. Le client) Tj ET
+BT /F1 10.5 Tf 48 698.0 Td (    consulte le catalogue, ajoute des meubles dans son panier, valide une commande, puis) Tj ET
+BT /F1 10.5 Tf 48 684.0 Td (    consulte son historique. L'administrateur gere les meubles, categories, commandes et) Tj ET
+BT /F1 10.5 Tf 48 670.0 Td (    utilisateurs depuis l'espace admin.) Tj ET
+BT /F2 14.0 Tf 48 636.0 Td (Comptes de demonstration) Tj ET
+BT /F3 8.5 Tf 48 610.0 Td (Type  Email  Mot de passe) Tj ET
+BT /F3 8.5 Tf 48 599.0 Td (Utilisateur  ahmed@example.com  password123) Tj ET
+BT /F3 8.5 Tf 48 588.0 Td (Utilisateur  fatma@example.com  password123) Tj ET
+BT /F3 8.5 Tf 48 577.0 Td (Utilisateur  aziz@example.com  password123) Tj ET
+BT /F3 8.5 Tf 48 566.0 Td (Admin  rayenessid15@gmail.com  essid) Tj ET
+BT /F3 8.5 Tf 48 555.0 Td (Admin  adem.essid@example.com  essid) Tj ET
+BT /F3 8.5 Tf 48 544.0 Td (Admin  ameni.wesleti@example.com  wesleti) Tj ET
+BT /F1 10.5 Tf 48 525.0 Td (Les utilisateurs standards servent aux tests du panier, du checkout et de l'historique.) Tj ET
+BT /F1 10.5 Tf 48 511.0 Td (    Les administrateurs ont ROLE_ADMIN. Comme User::getRoles\(\) ajoute toujours ROLE_USER,) Tj ET
+BT /F1 10.5 Tf 48 497.0 Td (    un administrateur conserve aussi les droits utilisateur.) Tj ET
+BT /F2 14.0 Tf 48 463.0 Td (Architecture generale) Tj ET
+BT /F1 10.5 Tf 48 437.0 Td (Le projet suit l'architecture MVC de Symfony.) Tj ET
+BT /F3 8.5 Tf 48 415.0 Td (Couche  Dossiers principaux  Role) Tj ET
+BT /F3 8.5 Tf 48 404.0 Td (Controleurs  src/Controller  Recoivent les requetes HTTP, appellent les repositories et rendent) Tj ET
+BT /F3 8.5 Tf 48 393.0 Td (  les templates.) Tj ET
+BT /F3 8.5 Tf 48 382.0 Td (Entites  src/Entity  Representent les tables Doctrine: User, Categorie, Meuble, Commande,) Tj ET
+BT /F3 8.5 Tf 48 371.0 Td (  LigneCommande.) Tj ET
+BT /F3 8.5 Tf 48 360.0 Td (Formulaires  src/Form  Decrivent les champs et validations des formulaires Symfony.) Tj ET
+BT /F3 8.5 Tf 48 349.0 Td (Repositories  src/Repository  Centralisent les requetes Doctrine vers la base.) Tj ET
+BT /F3 8.5 Tf 48 338.0 Td (Templates  templates  Affichent les pages Twig cote utilisateur et admin.) Tj ET
+BT /F3 8.5 Tf 48 327.0 Td (Fixtures  src/DataFixtures/AppFixtures.php  Creent les donnees de demonstration.) Tj ET
+BT /F3 8.5 Tf 48 316.0 Td (Configuration  config/packages  Configure securite, Doctrine, Twig, mailer, reset password.) Tj ET
+BT /F2 14.0 Tf 48 285.0 Td (Entites principales) Tj ET
+BT /F1 10.5 Tf 48 259.0 Td (User stocke les comptes, roles, mot de passe, nom, prenom et verification email. La) Tj ET
+BT /F1 10.5 Tf 48 245.0 Td (    relation OneToMany vers Commande permet de retrouver toutes les commandes d'un) Tj ET
+BT /F1 10.5 Tf 48 231.0 Td (    utilisateur.) Tj ET
+BT /F1 10.5 Tf 48 209.0 Td (Categorie regroupe les meubles par famille, par exemple sejour, chambre, bureau ou) Tj ET
+BT /F1 10.5 Tf 48 195.0 Td (    cuisine.) Tj ET
+BT /F1 10.5 Tf 48 173.0 Td (Meuble represente un produit: nom, description, prix, stock, image et categorie. Il est) Tj ET
+BT /F1 10.5 Tf 48 159.0 Td (    relie aux lignes de commande.) Tj ET
+BT /F1 10.5 Tf 48 137.0 Td (Commande represente une commande complete: numero unique, statut, total, date, adresse) Tj ET
+BT /F1 10.5 Tf 48 123.0 Td (    de livraison, utilisateur et liste des lignes.) Tj ET
+BT /F1 10.5 Tf 48 101.0 Td (LigneCommande represente un article dans une commande. Elle relie une commande a un) Tj ET
+BT /F1 10.5 Tf 48 87.0 Td (    meuble avec une quantite et un prix unitaire. Sa methode getSousTotal\(\) calcule) Tj ET
+BT /F1 10.5 Tf 48 73.0 Td (    prixUnitaire * quantite.) Tj ET
+BT /F1 8.0 Tf 500 28 Td (Page 1/3) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 3355 >>
+stream
+BT /F2 14.0 Tf 48 778.0 Td (Flux panier et commande) Tj ET
+BT /F1 10.5 Tf 48 752.0 Td (1. Le panier est stocke en session sous forme meubleId => quantite.) Tj ET
+BT /F1 10.5 Tf 48 738.0 Td (2. CommandeController::checkout\(\) relit les meubles depuis la base pour construire le) Tj ET
+BT /F1 10.5 Tf 48 724.0 Td (    panier complet.) Tj ET
+BT /F1 10.5 Tf 48 710.0 Td (3. A la validation, une nouvelle Commande est creee et associee a l'utilisateur) Tj ET
+BT /F1 10.5 Tf 48 696.0 Td (    connecte.) Tj ET
+BT /F1 10.5 Tf 48 682.0 Td (4. Pour chaque article du panier, une LigneCommande est creee et ajoutee a la commande.) Tj ET
+BT /F1 10.5 Tf 48 668.0 Td (5. Commande::calculerTotal\(\) additionne les sous-totaux.) Tj ET
+BT /F1 10.5 Tf 48 654.0 Td (6. La commande est persistee, le stock est decremente, puis le panier est vide.) Tj ET
+BT /F1 10.5 Tf 48 640.0 Td (7. L'utilisateur peut consulter la confirmation et l'historique de ses commandes.) Tj ET
+BT /F2 14.0 Tf 48 606.0 Td (Securite) Tj ET
+BT /F1 10.5 Tf 48 580.0 Td (La configuration config/packages/security.yaml utilise l'entite User comme provider. Les) Tj ET
+BT /F1 10.5 Tf 48 566.0 Td (    mots de passe sont en clair pour ce projet de demonstration \(algorithm: plaintext\). En) Tj ET
+BT /F1 10.5 Tf 48 552.0 Td (    production, il faut utiliser un hasher robuste comme auto.) Tj ET
+BT /F1 10.5 Tf 48 530.0 Td (Regles d'acces:) Tj ET
+BT /F3 8.5 Tf 48 508.0 Td (URL  Role requis) Tj ET
+BT /F3 8.5 Tf 48 497.0 Td (/admin  ROLE_ADMIN) Tj ET
+BT /F3 8.5 Tf 48 486.0 Td (/commande  ROLE_USER) Tj ET
+BT /F2 14.0 Tf 48 455.0 Td (Espace admin) Tj ET
+BT /F1 10.5 Tf 48 429.0 Td (Les controleurs dans src/Controller/Admin sont proteges par #[IsGranted\('ROLE_ADMIN'\)].) Tj ET
+BT /F1 10.5 Tf 48 415.0 Td (    Ils gerent le dashboard, les meubles, les categories, les commandes et les) Tj ET
+BT /F1 10.5 Tf 48 401.0 Td (    utilisateurs. UserCrudController::toggleAdmin\(\) permet de promouvoir ou retirer le) Tj ET
+BT /F1 10.5 Tf 48 387.0 Td (    role administrateur.) Tj ET
+BT /F2 14.0 Tf 48 353.0 Td (Donnees de test) Tj ET
+BT /F1 10.5 Tf 48 327.0 Td (AppFixtures.php cree:) Tj ET
+BT /F1 10.5 Tf 48 305.0 Td (- 3 utilisateurs standards: Ahmed, Fatma, Aziz.) Tj ET
+BT /F1 10.5 Tf 48 291.0 Td (- 3 administrateurs: Rayen Essid, Adem Essid et Ameni Wesleti.) Tj ET
+BT /F1 10.5 Tf 48 277.0 Td (- Des categories et meubles de demonstration.) Tj ET
+BT /F1 10.5 Tf 48 263.0 Td (- 20 commandes de demonstration, liees uniquement aux utilisateurs standards.) Tj ET
+BT /F2 14.0 Tf 48 229.0 Td (Commandes CLI de verification) Tj ET
+BT /F1 10.5 Tf 48 203.0 Td (Commandes utiles pour verifier le projet:) Tj ET
+BT /F3 9.5 Tf 48 181.0 Td (php bin/console lint:yaml config) Tj ET
+BT /F3 9.5 Tf 48 169.0 Td (php bin/console lint:twig templates) Tj ET
+BT /F3 9.5 Tf 48 157.0 Td (php bin/console debug:router) Tj ET
+BT /F3 9.5 Tf 48 145.0 Td (php bin/console doctrine:schema:validate --skip-sync) Tj ET
+BT /F3 9.5 Tf 48 133.0 Td (php bin/phpunit) Tj ET
+BT /F1 10.5 Tf 48 113.0 Td (Verification effectuee le 18/05/2026:) Tj ET
+BT /F3 8.5 Tf 48 91.0 Td (Commande  Resultat) Tj ET
+BT /F3 8.5 Tf 48 80.0 Td (php -l src/DataFixtures/AppFixtures.php  OK, aucune erreur de syntaxe) Tj ET
+BT /F3 8.5 Tf 48 69.0 Td (php bin/console lint:yaml config  OK, 28 fichiers YAML valides) Tj ET
+BT /F1 8.0 Tf 500 28 Td (Page 2/3) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 830 >>
+stream
+BT /F3 8.5 Tf 48 790.0 Td (php bin/console lint:twig templates  OK, 22 fichiers Twig valides) Tj ET
+BT /F3 8.5 Tf 48 779.0 Td (php bin/console debug:router  OK, routes /commande presentes) Tj ET
+BT /F3 8.5 Tf 48 768.0 Td (php bin/console doctrine:schema:validate --skip-sync  OK, mapping Doctrine correct) Tj ET
+BT /F3 8.5 Tf 48 757.0 Td (php bin/console doctrine:fixtures:load --env=test  OK, fixtures chargees sur SQLite temporaire) Tj ET
+BT /F3 8.5 Tf 48 746.0 Td (php bin/phpunit  OK, 4 tests et 4 assertions) Tj ET
+BT /F1 10.5 Tf 48 727.0 Td (Pour recharger les donnees de demonstration:) Tj ET
+BT /F3 9.5 Tf 48 705.0 Td (php bin/console doctrine:fixtures:load) Tj ET
+BT /F1 10.5 Tf 48 685.0 Td (Cette commande supprime puis recree les donnees de la base configuree dans .env.) Tj ET
+BT /F1 8.0 Tf 500 28 Td (Page 3/3) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 10 0 R >>
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000134 00000 n 
+0000000231 00000 n 
+0000000333 00000 n 
+0000000428 00000 n 
+0000004366 00000 n 
+0000004512 00000 n 
+0000007918 00000 n 
+0000008064 00000 n 
+0000008945 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+9093
+%%EOF

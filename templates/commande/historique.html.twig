@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mes commandes — SymHome{% endblock %}
+
+{% block body %}
+<h1 class="mb-4"><i class="bi bi-bag me-2"></i>Mes commandes</h1>
+
+{% if commandes is empty %}
+    <div class="text-center py-5">
+        <i class="bi bi-bag-x text-muted" style="font-size:4rem"></i>
+        <h4 class="mt-3 text-muted">Aucune commande</h4>
+        <a href="{{ path('app_meuble_index') }}" class="btn btn-primary mt-3">Commencer mes achats</a>
+    </div>
+{% else %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Numéro</th>
+                    <th>Date</th>
+                    <th>Articles</th>
+                    <th>Total</th>
+                    <th>Statut</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commande in commandes %}
+                <tr>
+                    <td><strong>{{ commande.numero }}</strong></td>
+                    <td>{{ commande.createdAt|date('d/m/Y') }}</td>
+                    <td>{{ commande.lignesCommande|length }} article(s)</td>
+                    <td><strong>{{ commande.total }} TND</strong></td>
+                    <td>
+                        <span class="badge bg-{{ commande.statutBadgeClass }}">{{ commande.statutLabel }}</span>
+                    </td>
+                    <td>
+                        <a href="{{ path('app_commande_detail', {id: commande.id}) }}" class="btn btn-sm btn-outline-primary">Détail</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}

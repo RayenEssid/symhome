@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#eef2f8"/>
+      <stop offset="100%" style="stop-color:#cfd9ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg)" rx="12"/>
+  <!-- Headboard -->
+  <rect x="80" y="140" width="440" height="90" rx="16" fill="#5b7fa6"/>
+  <!-- Headboard detail -->
+  <rect x="100" y="155" width="195" height="60" rx="10" fill="#7499c0" opacity="0.6"/>
+  <rect x="305" y="155" width="195" height="60" rx="10" fill="#7499c0" opacity="0.6"/>
+  <!-- Bed frame -->
+  <rect x="80" y="225" width="440" height="80" rx="8" fill="#3d5f80"/>
+  <!-- Mattress -->
+  <rect x="90" y="215" width="420" height="70" rx="8" fill="#a8c4e0"/>
+  <!-- Pillows -->
+  <rect x="110" y="220" width="170" height="45" rx="10" fill="#ddeaf5"/>
+  <rect x="320" y="220" width="170" height="45" rx="10" fill="#ddeaf5"/>
+  <!-- Duvet -->
+  <rect x="90" y="258" width="420" height="27" rx="6" fill="#c5d8ee"/>
+  <!-- Legs -->
+  <rect x="105" y="302" width="16" height="30" rx="4" fill="#2a4460"/>
+  <rect x="479" y="302" width="16" height="30" rx="4" fill="#2a4460"/>
+  <!-- Label -->
+  <rect x="185" y="350" width="230" height="30" rx="6" fill="#5b7fa6" opacity="0.15"/>
+  <text x="300" y="370" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#3d5f80">Lit 160x200</text>
+</svg>

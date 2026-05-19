@@ -1,0 +1,71 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Commande {{ commande.numero }} — Admin{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex align-items-center mb-3">
+    <a href="{{ path('admin_commande_index') }}" class="btn btn-outline-secondary btn-sm me-3">
+        <i class="bi bi-arrow-left"></i> Retour
+    </a>
+    <h4 class="fw-bold mb-0">Commande {{ commande.numero }}</h4>
+</div>
+
+<div class="row g-3">
+    {# Détail commande #}
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header fw-bold">Détail de la commande</div>
+            <div class="card-body">
+                <p><strong>Client :</strong> {{ commande.user.nomComplet }} ({{ commande.user.email }})</p>
+                <p><strong>Date :</strong> {{ commande.createdAt|date('d/m/Y à H:i') }}</p>
+                <p><strong>Adresse de livraison :</strong> {{ commande.adresseLivraison|default('Non renseignée') }}</p>
+
+                <table class="table table-sm mt-3">
+                    <thead>
+                        <tr>
+                            <th>Meuble</th>
+                            <th>Qté</th>
+                            <th>Prix unit.</th>
+                            <th>Sous-total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ligne in commande.lignesCommande %}
+                        <tr>
+                            <td>{{ ligne.meuble.nom }}</td>
+                            <td>{{ ligne.quantite }}</td>
+                            <td>{{ ligne.prixUnitaire }} TND</td>
+                            <td>{{ ligne.sousTotal }} TND</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-light">
+                            <td colspan="3" class="fw-bold text-end">Total</td>
+                            <td class="fw-bold">{{ commande.total }} TND</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {# Formulaire statut #}
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header fw-bold">Modifier le statut</div>
+            <div class="card-body">
+                <p>
+                    Statut actuel :
+                    <span class="badge bg-{{ commande.statutBadgeClass }}">{{ commande.statutLabel }}</span>
+                </p>
+                {{ form_start(form) }}
+                    {{ form_row(form.statut) }}
+                    <hr>
+                    {{ form_widget(form.sauvegarder) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

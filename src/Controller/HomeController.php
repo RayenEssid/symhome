@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
+    #[Route('/home', name: 'app_home_alias')]
     public function index(
         CategorieRepository $categorieRepository,
         MeubleRepository $meubleRepository

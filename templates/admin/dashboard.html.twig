@@ -1,0 +1,108 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Tableau de bord — Admin SymHome{% endblock %}
+
+{% block admin_content %}
+<h4 class="mb-4 fw-bold">Tableau de bord</h4>
+
+{# ── KPI Cards ── #}
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white" style="background:#2d5a27">
+            <div class="card-body">
+                <h6 class="card-title opacity-75">Chiffre d'affaires</h6>
+                <h3>{{ total_ca|number_format(2, ',', ' ') }} TND</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h6 class="card-title opacity-75">Commandes validées</h6>
+                <h3>{{ nb_commandes }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <h6 class="card-title opacity-75">Produits catalogue</h6>
+                <h3>{{ nb_meubles }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card bg-secondary text-white">
+            <div class="card-body">
+                <h6 class="card-title opacity-75">Utilisateurs</h6>
+                <h3>{{ nb_utilisateurs }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    {# ── Graphique CA mensuel (Chart.js) ── #}
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header fw-bold">Chiffre d'affaires mensuel</div>
+            <div class="card-body">
+                <canvas id="chartCA" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+
+    {# ── Dernières commandes ── #}
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header fw-bold">Dernières commandes</div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for commande in commandes_recentes %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="fw-bold">{{ commande.numero }}</small><br>
+                            <small class="text-muted">{{ commande.user.nomComplet }}</small>
+                        </div>
+                        <div class="text-end">
+                            <small class="fw-bold">{{ commande.total }} TND</small><br>
+                            <span class="badge bg-{{ commande.statutBadgeClass }}">{{ commande.statutLabel }}</span>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="list-group-item text-muted text-center py-3">Aucune commande</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+const mois = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'];
+const statsData = {{ stats_commandes|json_encode|raw }};
+const labels = statsData.map(s => mois[(s.mois - 1)] + ' ' + s.annee);
+const totals = statsData.map(s => parseFloat(s.total) || 0);
+
+new Chart(document.getElementById('chartCA'), {
+    type: 'bar',
+    data: {
+        labels: labels.length ? labels : ['Aucune donnée'],
+        datasets: [{
+            label: 'CA (TND)',
+            data: totals.length ? totals : [0],
+            backgroundColor: '#4a8c42',
+            borderRadius: 6,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+    }
+});
+</script>
+{% endblock %}

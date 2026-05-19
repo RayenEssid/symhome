@@ -7,11 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MeubleRepository::class)]
-#[Vich\Uploadable]
 class Meuble
 {
     #[ORM\Id]
@@ -19,26 +17,27 @@ class Meuble
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Le nom du meuble est obligatoire.')]
+    #[Assert\Length(min: 3, max: 150, minMessage: 'Le nom doit avoir au moins {{ limit }} caractères.')]
     #[ORM\Column(length: 150)]
     private ?string $nom = null;
 
+    #[Assert\NotBlank(message: 'La description est obligatoire.')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[Assert\NotBlank(message: 'Le prix est obligatoire.')]
+    #[Assert\Positive(message: 'Le prix doit être un nombre positif.')]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $prix = null;
 
+    #[Assert\NotNull(message: 'Le stock est obligatoire.')]
+    #[Assert\PositiveOrZero(message: 'Le stock ne peut pas être négatif.')]
     #[ORM\Column]
     private ?int $stock = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
-
-    #[Vich\UploadableField(mapping: 'meubles', fileNameProperty: 'image')]
-    private ?File $imageFile = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -72,18 +71,6 @@ class Meuble
 
     public function getImage(): ?string { return $this->image; }
     public function setImage(?string $image): static { $this->image = $image; return $this; }
-
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-        if (null !== $imageFile) {
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-    }
-    public function getImageFile(): ?File { return $this->imageFile; }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable { return $this->updatedAt; }
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static { $this->updatedAt = $updatedAt; return $this; }
 
     public function getCreatedAt(): ?\DateTimeImmutable { return $this->createdAt; }
     public function setCreatedAt(\DateTimeImmutable $createdAt): static { $this->createdAt = $createdAt; return $this; }

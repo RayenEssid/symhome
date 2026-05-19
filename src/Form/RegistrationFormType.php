@@ -20,64 +20,28 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('prenom', TextType::class, [
-                'label' => 'Prénom',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Votre prénom'
-                ],
-            ])
-            ->add('nom', TextType::class, [
-                'label' => 'Nom',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Votre nom'
-                ],
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'Email',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'votre@email.com'
-                ],
-            ])
+            ->add('prenom', TextType::class, ['label' => 'Prénom', 'attr' => ['class' => 'form-control']])
+            ->add('nom', TextType::class, ['label' => 'Nom', 'attr' => ['class' => 'form-control']])
+            ->add('email', EmailType::class, ['label' => 'Adresse email', 'attr' => ['class' => 'form-control']])
             ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'mapped' => false,
-                'invalid_message' => 'Les mots de passe ne correspondent pas.',
-                'first_options' => [
-                    'label' => 'Mot de passe',
-                    'attr' => ['class' => 'form-control'],
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => 'Veuillez entrer un mot de passe'
-                        ]),
-                        new Length([
-                            'min' => 8,
-                            'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères'
-                        ]),
-                    ],
-                ],
-                'second_options' => [
-                    'label' => 'Confirmer le mot de passe',
-                    'attr' => ['class' => 'form-control'],
+                'type'            => PasswordType::class,
+                'mapped'          => false,
+                'first_options'   => ['label' => 'Mot de passe', 'attr' => ['class' => 'form-control']],
+                'second_options'  => ['label' => 'Confirmer le mot de passe', 'attr' => ['class' => 'form-control']],
+                'constraints'     => [
+                    new NotBlank(message: 'Veuillez entrer un mot de passe.'),
+                    new Length(min: 8, minMessage: 'Minimum {{ limit }} caractères.'),
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'label' => "J'accepte les conditions d'utilisation",
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Vous devez accepter les conditions d\'utilisation.'
-                    ])
-                ],
+                'mapped'      => false,
+                'label'       => "J'accepte les conditions d'utilisation",
+                'constraints' => [new IsTrue(message: 'Vous devez accepter les conditions.')],
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
+        $resolver->setDefaults(['data_class' => User::class]);
     }
 }
